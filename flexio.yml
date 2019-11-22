@@ -1,0 +1,17 @@
+title: Capsule CRM Function Pack
+description: Functions for accessing your Capsule CRM info
+image:
+  src: https://logo.clearbit.com/flex.io
+  alt: Capsule CRM logo
+functions:
+prompts:
+  - element: auth
+    name: auth
+    title: Connect to Capsule CRM
+    description: |
+      Connect to your Capsule CRM account to connect the functions to your data
+    connection:
+      connection_type: capsulecrm
+    form_items:
+      - name: capsulecrm_connection
+        value: ''
