@@ -4,6 +4,7 @@ image:
   src: https://logo.clearbit.com/flex.io
   alt: Capsule CRM logo
 functions:
+  - path: capsulecrm-list-opportunities.py
 prompts:
   - element: auth
     name: auth
