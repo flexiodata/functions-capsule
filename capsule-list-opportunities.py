@@ -13,28 +13,26 @@
 #   - '*'
 # notes: |
 #   The following properties are allowed:
-#     * `id`:
-#     * `owner_id`:
-#     * `owner_username`:
-#     * `owner_name`:
-#     * `owner_pictureurl`:
-#     * `party_id`:
-#     * `party_type`:
-#     * `party_firstname`:
-#     * `party_lastname`:
-#     * `party_pictureurl`:
-#     * `description`:
-#     * `duration`:
-#     * `duration_basis`:
-#     * `milestone_id`:
-#     * `milestone_name`:
-#     * `duration_basis`:
-#     * `probability`:
-#     * `value_amt`:
-#     * `value_currency`:
-#     * `lastcontacted`:
-#     * `created`:
-#     * `updated`:
+#     * `id`: the id of the opportunity
+#     * `owner_id`: the id of the owner of the opportunity
+#     * `owner_username`: the username of the owner of the opportunity
+#     * `owner_name`: the name of the owner of the opportunity
+#     * `owner_pictureurl`: the url for the picture profile for the owner of the opportunity
+#     * `party_id`: the id of the party for the opportunity
+#     * `party_type`: the type of party for the opportunity; either 'person' or 'organisation'
+#     * `party_name`: the name of the party for the opportunity
+#     * `party_pictureurl`: the url for the picture profile for the party for the opportunity
+#     * `description`: a description of the opportunity
+#     * `duration`: the duration of the opportunity
+#     * `duration_basis`: the time unit for the duration
+#     * `milestone_id`: the id of the milestone for the opportunity
+#     * `milestone_name`: the name of the milestone for the opportunity
+#     * `probability`: the probability of winning the opportunity
+#     * `value_amt`: the amount the opportunity is worth
+#     * `value_currency`: the currency type of the opportunity
+#     * `created`: the date the opportunity was created
+#     * `updated`: the date when the opportunity was last updated
+#   See here for more information about Capsule opportunity properties: https://developer.capsulecrm.com/v2/models/opportunity
 # ---
 
 import json
@@ -86,19 +84,16 @@ def flexio_handler(flex):
     property_map['owner_pictureurl'] = lambda item: item.get('owner',{}).get('pictureURL','')
     property_map['party_id'] = lambda item: item.get('party',{}).get('id','')
     property_map['party_type'] = lambda item: item.get('party',{}).get('type','')
-    property_map['party_firstname'] = lambda item: item.get('party',{}).get('firstName','')
-    property_map['party_lastname'] = lambda item: item.get('party',{}).get('lastName','')
+    property_map['party_name'] = lambda item: item.get('party',{}).get('name','')
     property_map['party_pictureurl'] = lambda item: item.get('party',{}).get('pictureURL','')
     property_map['description'] = lambda item: item.get('description','')
     property_map['duration'] = lambda item: item.get('duration','')
     property_map['duration_basis'] = lambda item: item.get('durationBasis','')
     property_map['milestone_id'] = lambda item: item.get('milestone',{}).get('id','')
     property_map['milestone_name'] = lambda item: item.get('milestone',{}).get('name','')
-    property_map['duration_basis'] = lambda item: item.get('durationBasis','')
     property_map['probability'] = lambda item: item.get('probability','')
     property_map['value_amt'] = lambda item: item.get('value',{}).get('amount','')
     property_map['value_currency'] = lambda item: item.get('value',{}).get('currency','')
-    property_map['lastcontacted'] = lambda item: item.get('lastContactedAt','')
     property_map['created'] = lambda item: item.get('createdAt','')
     property_map['updated'] = lambda item: item.get('updatedAt','')
 
