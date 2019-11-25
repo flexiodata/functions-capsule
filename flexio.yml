@@ -12,7 +12,7 @@ prompts:
     description: |
       Connect to your Capsule account to connect the functions to your data
     connection:
-      connection_type: capsule
+      connection_type: capsulecrm
     form_items:
       - name: capsule_connection
         value: ''
