@@ -21,6 +21,8 @@
 #     * `party_id`: the id of the party for the opportunity
 #     * `party_type`: the type of party for the opportunity; either 'person' or 'organisation'
 #     * `party_name`: the name of the party for the opportunity
+#     * `party_firstname`: the first name of the party for the opportunity
+#     * `party_lastname`: the last name of the party for the opportunity
 #     * `party_pictureurl`: the url for the picture profile for the party for the opportunity
 #     * `description`: a description of the opportunity
 #     * `duration`: the duration of the opportunity
@@ -85,6 +87,8 @@ def flexio_handler(flex):
     property_map['party_id'] = lambda item: item.get('party',{}).get('id','')
     property_map['party_type'] = lambda item: item.get('party',{}).get('type','')
     property_map['party_name'] = lambda item: item.get('party',{}).get('name','')
+    property_map['party_firstname'] = lambda item: item.get('party',{}).get('firstName','')
+    property_map['party_lastname'] = lambda item: item.get('party',{}).get('lastName','')
     property_map['party_pictureurl'] = lambda item: item.get('party',{}).get('pictureURL','')
     property_map['description'] = lambda item: item.get('description','')
     property_map['duration'] = lambda item: item.get('duration','')
