@@ -1,9 +1,9 @@
 
 # ---
-# name: capsulecrm-list-opportunities
+# name: capsule-list-opportunities
 # deployed: true
-# title: Capsule CRM List Opportunities
-# description: Returns a list of opportunties from Capsule CRM
+# title: Capsule List Opportunities
+# description: Returns a list of opportunties from Capsule
 # params:
 #   - name: properties
 #     type: array
@@ -50,7 +50,7 @@ from collections import OrderedDict
 def flexio_handler(flex):
 
     # get the api key from the variable input
-    auth_token = dict(flex.vars).get('capsulecrm_connection')
+    auth_token = dict(flex.vars).get('capsule_connection')
     if auth_token is None:
         flex.output.content_type = "application/json"
         flex.output.write([[""]])
