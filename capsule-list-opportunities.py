@@ -10,7 +10,8 @@
 #     description: The properties to return (defaults to all properties). See "Notes" for a listing of the available properties.
 #     required: false
 # examples:
-#   - '*'
+#   - '"*"'
+#   - '"id, description, duration, duration_basis, value_amt, value_currency, probability"'
 # notes: |
 #   The following properties are allowed:
 #     * `id`: the id of the opportunity
