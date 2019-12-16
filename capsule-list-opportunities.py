@@ -115,10 +115,7 @@ def flexio_handler(flex):
         }
 
         response = requests.get(url, headers=headers)
-        if response.status_code != 200:
-            flex.output.content_type = "application/json"
-            flex.output.write([[""]])
-            return
+        response.raise_for_status()
         content = response.json()
 
         # get the properties to return and the property map
@@ -141,7 +138,8 @@ def flexio_handler(flex):
         flex.output.write(result)
 
     except:
-        raise RuntimeError
+        flex.output.content_type = 'application/json'
+        flex.output.write([['']])
 
 def validator_list(field, value, error):
     if isinstance(value, str):
