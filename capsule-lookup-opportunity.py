@@ -72,7 +72,7 @@ def flexio_handler(flex):
     # define the expected parameters and map the values to the parameter names
     # based on the positions of the keys/values
     params = OrderedDict()
-    params['id'] = {'required': True, 'type': 'string'}
+    params['id'] = {'required': True, 'type': 'string', 'coerce': str}
     params['properties'] = {'required': False, 'validator': validator_list, 'coerce': to_list, 'default': '*'}
     input = dict(zip(params.keys(), input))
 
