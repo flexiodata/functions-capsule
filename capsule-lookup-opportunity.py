@@ -9,7 +9,6 @@
 #     type: string
 #     description: The identifier of the opportunity to return
 #     required: true
-# params:
 #   - name: properties
 #     type: array
 #     description: The properties to return (defaults to all properties). See "Notes" for a listing of the available properties.
