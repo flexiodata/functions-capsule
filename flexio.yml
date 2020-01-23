@@ -1,7 +1,7 @@
 title: Capsule Function Pack
 description: Functions for accessing your Capsule info
 image:
-  src: https://static.flex.io/assets/logos/icon-capsulecrm-128-df125ea.png
+  src: https://static.flex.io/assets/logos2/capsule-crm.png
   alt: Capsule logo
 functions:
   - path: capsule-list-opportunities.py
