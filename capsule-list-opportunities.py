@@ -7,42 +7,100 @@
 # params:
 #   - name: properties
 #     type: array
-#     description: The properties to return (defaults to all properties). See "Notes" for a listing of the available properties.
+#     description: The properties to return (defaults to all properties). See "Returns" for a listing of the available properties.
 #     required: false
+# returns:
+#   - name: id
+#     type: string
+#     description: The id of the opportunity
+#   - name: name
+#     type: string
+#     description: The name of this opportunity
+#   - name: description
+#     type: string
+#     description: A description of the opportunity
+#   - name: value_amt
+#     type: string
+#     description: The amount the opportunity is worth
+#   - name: value_currency
+#     type: string
+#     description: The currency type of the opportunity
+#   - name: probability
+#     type: string
+#     description: The probability of winning the opportunity
+#   - name: created
+#     type: string
+#     description: The date the opportunity was created
+#   - name: updated
+#     type: string
+#     description: The date when the opportunity was last updated
+#   - name: expected_close
+#     type: string
+#     description: The expected close date of this opportunity
+#   - name: closed
+#     type: string
+#     description: The date this opportunity was closed
+#   - name: last_contacted
+#     type: string
+#     description: The date when this opportuntiy was last time contacted
+#   - name: last_stage_changed
+#     type: string
+#     description: The date when this opportuntiy last had its milestone changes
+#   - name: owner_id
+#     type: string
+#     description: The id of the owner of the opportunity
+#   - name: owner_username
+#     type: string
+#     description: The username of the owner of the opportunity
+#   - name: owner_name
+#     type: string
+#     description: The name of the owner of the opportunity
+#   - name: owner_pictureurl
+#     type: string
+#     description: The url for the picture profile for the owner of the opportunity
+#   - name: team
+#     type: string
+#     description: The team this opportunity is assigned to
+#   - name: party_id
+#     type: string
+#     description: The id of the party for the opportunity
+#   - name: party_type
+#     type: string
+#     description: The type of party for the opportunity; either 'person' or 'organisation'
+#   - name: party_firstname
+#     type: string
+#     description: The first name of the party for the opportunity
+#   - name: party_lastname
+#     type: string
+#     description: The last name of the party for the opportunity
+#   - name: party_pictureurl
+#     type: string
+#     description: The url for the picture profile for the party for the opportunity
+#   - name: duration
+#     type: string
+#     description: The duration of the opportunity
+#   - name: duration_basis
+#     type: string
+#     description: The time unit for the duration
+#   - name: milestone_id
+#     type: string
+#     description: The id of the milestone for the opportunity
+#   - name: milestone_name
+#     type: string
+#     description: The name of the milestone for the opportunity
+#   - name: milestone_last_open_id
+#     type: string
+#     description: The id of the last milestone selected on the opportuntiy while open
+#   - name: milestone_last_open_name
+#     type: string
+#     description: The id of the last milestone selected on the opportuntiy while open
+#   - name: lost_reason
+#     type: string
+#     description: The reason the opportunity was lost
 # examples:
 #   - '"*"'
 #   - '"id, description, duration, duration_basis, value_amt, value_currency, probability"'
 # notes: |
-#   The following properties are allowed:
-#     * `id`: the id of the opportunity
-#     * `name`: the name of this opportunity
-#     * `description`: a description of the opportunity
-#     * `value_amt`: the amount the opportunity is worth
-#     * `value_currency`: the currency type of the opportunity
-#     * `probability`: the probability of winning the opportunity
-#     * `created`: the date the opportunity was created
-#     * `updated`: the date when the opportunity was last updated
-#     * `expected_close`: the expected close date of this opportunity
-#     * `closed`: the date this opportunity was closed
-#     * `last_contacted`: the date when this opportuntiy was last time contacted
-#     * `last_stage_changed`: the date when this opportuntiy last had its milestone changes
-#     * `owner_id`: the id of the owner of the opportunity
-#     * `owner_username`: the username of the owner of the opportunity
-#     * `owner_name`: the name of the owner of the opportunity
-#     * `owner_pictureurl`: the url for the picture profile for the owner of the opportunity
-#     * `team`: the team this opportunity is assigned to
-#     * `party_id`: the id of the party for the opportunity
-#     * `party_type`: the type of party for the opportunity; either 'person' or 'organisation'
-#     * `party_firstname`: the first name of the party for the opportunity
-#     * `party_lastname`: the last name of the party for the opportunity
-#     * `party_pictureurl`: the url for the picture profile for the party for the opportunity
-#     * `duration`: the duration of the opportunity
-#     * `duration_basis`: the time unit for the duration
-#     * `milestone_id`: the id of the milestone for the opportunity
-#     * `milestone_name`: the name of the milestone for the opportunity
-#     * `milestone_last_open_id`: the id of the last milestone selected on the opportuntiy while open
-#     * `milestone_last_open_name`: the id of the last milestone selected on the opportuntiy while open
-#     *`lost_reason`: report of reason for lost opportunity
 #   See here for more information about Capsule opportunity properties: https://developer.capsulecrm.com/v2/models/opportunity
 # ---
 
