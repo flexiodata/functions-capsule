@@ -9,7 +9,7 @@ For example, with this Excel and Google Sheets add-on you can:
 Here is an example:
 
 ```
-=FLEX("YOUR_TEAM_NAME/capsule-list-opportunities")
+=FLEX("YOUR_TEAM_NAME/capsule-opportunities")
 ```
 
 ## Prerequisites
