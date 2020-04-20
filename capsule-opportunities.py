@@ -1,8 +1,8 @@
 
 # ---
-# name: capsule-list-opportunities
+# name: capsule-opportunities
 # deployed: true
-# title: Capsule List Opportunities
+# title: Capsule Opportunities
 # description: Returns a list of opportunties from Capsule
 # params:
 #   - name: properties
