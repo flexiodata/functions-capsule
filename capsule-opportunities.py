@@ -2,6 +2,7 @@
 # ---
 # name: capsule-opportunities
 # deployed: true
+# config: index
 # title: Capsule Opportunities
 # description: Returns a list of opportunties from Capsule
 # params:
@@ -9,9 +10,13 @@
 #     type: array
 #     description: The properties to return (defaults to all properties). See "Returns" for a listing of the available properties.
 #     required: false
+#   - name: filter
+#     type: string
+#     description: Filter to apply with key/values specified as a URL query string where the keys correspond to the properties to filter.
+#     required: false
 # returns:
 #   - name: id
-#     type: string
+#     type: integer
 #     description: The id of the opportunity
 #   - name: name
 #     type: string
@@ -20,20 +25,14 @@
 #     type: string
 #     description: A description of the opportunity
 #   - name: value_amt
-#     type: string
+#     type: number
 #     description: The amount the opportunity is worth
 #   - name: value_currency
 #     type: string
 #     description: The currency type of the opportunity
 #   - name: probability
-#     type: string
+#     type: integer
 #     description: The probability of winning the opportunity
-#   - name: created
-#     type: string
-#     description: The date the opportunity was created
-#   - name: updated
-#     type: string
-#     description: The date when the opportunity was last updated
 #   - name: expected_close
 #     type: string
 #     description: The expected close date of this opportunity
@@ -47,7 +46,7 @@
 #     type: string
 #     description: The date when this opportuntiy last had its milestone changes
 #   - name: owner_id
-#     type: string
+#     type: integer
 #     description: The id of the owner of the opportunity
 #   - name: owner_username
 #     type: string
@@ -62,7 +61,7 @@
 #     type: string
 #     description: The team this opportunity is assigned to
 #   - name: party_id
-#     type: string
+#     type: integer
 #     description: The id of the party for the opportunity
 #   - name: party_type
 #     type: string
@@ -83,13 +82,13 @@
 #     type: string
 #     description: The time unit for the duration
 #   - name: milestone_id
-#     type: string
+#     type: integer
 #     description: The id of the milestone for the opportunity
 #   - name: milestone_name
 #     type: string
 #     description: The name of the milestone for the opportunity
 #   - name: milestone_last_open_id
-#     type: string
+#     type: integer
 #     description: The id of the last milestone selected on the opportuntiy while open
 #   - name: milestone_last_open_name
 #     type: string
@@ -97,6 +96,12 @@
 #   - name: lost_reason
 #     type: string
 #     description: The reason the opportunity was lost
+#   - name: created
+#     type: string
+#     description: The date the opportunity was created
+#   - name: updated
+#     type: string
+#     description: The date when the opportunity was last updated
 # examples:
 #   - '"*"'
 #   - '"id, description, duration, duration_basis, value_amt, value_currency, probability"'
@@ -105,125 +110,77 @@
 # ---
 
 import json
-import requests
 import urllib
-import itertools
+import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 from datetime import *
 from decimal import *
-from cerberus import Validator
 from collections import OrderedDict
 
 # main function entry point
 def flexio_handler(flex):
 
-    # get the api key from the variable input
-    auth_token = dict(flex.vars).get('capsule_connection',{}).get('access_token')
-    if auth_token is None:
-        flex.output.content_type = "application/json"
-        flex.output.write([[""]])
-        return
-
-    # get the input
-    input = flex.input.read()
-    try:
-        input = json.loads(input)
-        if not isinstance(input, list): raise ValueError
-    except ValueError:
-        raise ValueError
-
-    # define the expected parameters and map the values to the parameter names
-    # based on the positions of the keys/values
-    params = OrderedDict()
-    params['properties'] = {'required': False, 'validator': validator_list, 'coerce': to_list, 'default': '*'}
-    input = dict(zip(params.keys(), input))
-
-    # validate the mapped input against the validator
-    # if the input is valid return an error
-    v = Validator(params, allow_unknown = True)
-    input = v.validated(input)
-    if input is None:
-        raise ValueError
-
-    # map this function's property names to the API's property names
-    property_map = OrderedDict()
-    property_map['id'] = lambda item: item.get('id','')
-    property_map['name'] = lambda item: item.get('name','')
-    property_map['description'] = lambda item: item.get('description','')
-    property_map['value_amt'] = lambda item: item.get('value',{}).get('amount','')
-    property_map['value_currency'] = lambda item: item.get('value',{}).get('currency','')
-    property_map['probability'] = lambda item: item.get('probability','')
-    property_map['created'] = lambda item: item.get('createdAt','')
-    property_map['updated'] = lambda item: item.get('updatedAt','')
-    property_map['expected_close'] = lambda item: item.get('expectedCloseOn','')
-    property_map['closed'] = lambda item: item.get('closedOn','')
-    property_map['last_contacted'] = lambda item: item.get('lastContactedAt','')
-    property_map['last_stage_changed'] = lambda item: item.get('lastStageChangedAt','')
-    property_map['owner_id'] = lambda item: item.get('owner',{}).get('id','')
-    property_map['owner_username'] = lambda item: item.get('owner',{}).get('username','')
-    property_map['owner_name'] = lambda item: item.get('owner',{}).get('name','')
-    property_map['owner_pictureurl'] = lambda item: item.get('owner',{}).get('pictureURL','')
-    property_map['team'] = lambda item: item.get('team','')
-    property_map['party_id'] = lambda item: item.get('party',{}).get('id','')
-    property_map['party_type'] = lambda item: item.get('party',{}).get('type','')
-    property_map['party_firstname'] = lambda item: item.get('party',{}).get('firstName','')
-    property_map['party_lastname'] = lambda item: item.get('party',{}).get('lastName','')
-    property_map['party_pictureurl'] = lambda item: item.get('party',{}).get('pictureURL','')
-    property_map['duration'] = lambda item: item.get('duration','')
-    property_map['duration_basis'] = lambda item: item.get('durationBasis','')
-    property_map['milestone_id'] = lambda item: item.get('milestone',{}).get('id','')
-    property_map['milestone_name'] = lambda item: item.get('milestone',{}).get('name','')
-    property_map['milestone_last_open_id'] = lambda item: item.get('lastOpenMilestone',{}).get('id','')
-    property_map['milestone_last_open_name'] = lambda item: item.get('lastOpenMilestone',{}).get('name','')
-    property_map['lost_reason'] = lambda item: item.get('lostReason','')
-
-    try:
-
-        # make the request
-        # see here for more info: https://developer.capsulecrm.com/v2/operations/Opportunity
-
-        url = 'https://api.capsulecrm.com/api/v2/opportunities'
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + auth_token
-        }
-
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        content = response.json()
-
-        # get the properties to return and the property map
-        properties = [p.lower().strip() for p in input['properties']]
-
-        # if we have a wildcard, get all the properties
-        if len(properties) == 1 and properties[0] == '*':
-            properties = list(property_map.keys())
-
-        # build up the result
-        result = []
-        result.append(properties)
-
-        opportunities = content.get('opportunities',[])
-        for item in opportunities:
-            row = [property_map.get(p, lambda item: '')(item) or '' for p in properties]
-            result.append(row)
-
-        flex.output.content_type = "application/json"
+    flex.output.content_type = 'application/x-ndjson'
+    for item in get_data(flex.vars):
+        result = json.dumps(item, default=to_string) + "\n"
         flex.output.write(result)
 
-    except:
-        flex.output.content_type = 'application/json'
-        flex.output.write([['']])
+def get_data(params):
 
-def validator_list(field, value, error):
-    if isinstance(value, str):
-        return
-    if isinstance(value, list):
-        for item in value:
-            if not isinstance(item, str):
-                error(field, 'Must be a list with only string values')
-        return
-    error(field, 'Must be a string or a list of strings')
+    # get the api key from the variable input
+    auth_token = dict(params).get('capsule_connection',{}).get('access_token')
+
+    # see here for more info:
+    # https://developer.capsulecrm.com/v2/operations/Opportunity
+
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + auth_token
+    }
+    url = 'https://api.capsulecrm.com/api/v2/opportunities'
+
+    page_size = 100
+    url_query_params = {'perPage': page_size}
+    url_query_str = urllib.parse.urlencode(url_query_params)
+    page_url = url + '?' + url_query_str
+
+    while True:
+
+        response = requests_retry_session().get(page_url, headers=headers)
+        response.raise_for_status()
+        content = response.json()
+        data = content.get('opportunities',[])
+
+        if len(data) == 0: # sanity check in case there's an issue with cursor
+            break
+
+        for item in data:
+            yield get_item_info(item)
+
+        page_url = response.links.get('next',{}).get('url')
+        if page_url is None:
+            break
+
+def requests_retry_session(
+    retries=3,
+    backoff_factor=0.3,
+    status_forcelist=(500, 502, 504),
+    session=None,
+):
+    session = session or requests.Session()
+    retry = Retry(
+        total=retries,
+        read=retries,
+        connect=retries,
+        backoff_factor=backoff_factor,
+        status_forcelist=status_forcelist,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    return session
 
 def to_string(value):
     if isinstance(value, (date, datetime)):
@@ -232,11 +189,39 @@ def to_string(value):
         return str(value)
     return value
 
-def to_list(value):
-    # if we have a list of strings, create a list from them; if we have
-    # a list of lists, flatten it into a single list of strings
-    if isinstance(value, str):
-        return value.split(",")
-    if isinstance(value, list):
-        return list(itertools.chain.from_iterable(value))
-    return None
+def get_item_info(item):
+
+    # map this function's property names to the API's property names
+    info = OrderedDict()
+
+    info['id'] = item.get('id','')
+    info['name'] = item.get('name','')
+    info['description'] = item.get('description','')
+    info['value_amt'] = item.get('value',{}).get('amount','')
+    info['value_currency'] = item.get('value',{}).get('currency','')
+    info['probability'] = item.get('probability','')
+    info['created'] = item.get('createdAt','')
+    info['updated'] = item.get('updatedAt','')
+    info['expected_close'] = item.get('expectedCloseOn','')
+    info['closed'] = item.get('closedOn','')
+    info['last_contacted'] = item.get('lastContactedAt','')
+    info['last_stage_changed'] = item.get('lastStageChangedAt','')
+    info['owner_id'] = item.get('owner',{}).get('id','')
+    info['owner_username'] = item.get('owner',{}).get('username','')
+    info['owner_name'] = item.get('owner',{}).get('name','')
+    info['owner_pictureurl'] = item.get('owner',{}).get('pictureURL','')
+    info['team'] = item.get('team','')
+    info['party_id'] = item.get('party',{}).get('id','')
+    info['party_type'] = item.get('party',{}).get('type','')
+    info['party_firstname'] = item.get('party',{}).get('firstName','')
+    info['party_lastname'] = item.get('party',{}).get('lastName','')
+    info['party_pictureurl'] = item.get('party',{}).get('pictureURL','')
+    info['duration'] = item.get('duration','')
+    info['duration_basis'] = item.get('durationBasis','')
+    info['milestone_id'] = item.get('milestone',{}).get('id','')
+    info['milestone_name'] = item.get('milestone',{}).get('name','')
+    info['milestone_last_open_id'] = item.get('lastOpenMilestone',{}).get('id','')
+    info['milestone_last_open_name'] = item.get('lastOpenMilestone',{}).get('name','')
+    info['lost_reason'] = item.get('lostReason','')
+
+    return info
