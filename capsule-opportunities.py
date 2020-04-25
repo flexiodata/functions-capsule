@@ -93,10 +93,10 @@
 #   - name: party_type
 #     type: string
 #     description: The type of party for the opportunity; either 'person' or 'organisation'
-#   - name: party_firstname
+#   - name: party_first_name
 #     type: string
 #     description: The first name of the party for the opportunity
-#   - name: party_lastname
+#   - name: party_last_name
 #     type: string
 #     description: The last name of the party for the opportunity
 #   - name: party_picture_url
@@ -223,8 +223,8 @@ def get_item_info(item):
     info['owner_picture_url'] = item.get('owner',{}).get('pictureURL','')
     info['party_id'] = item.get('party',{}).get('id','')
     info['party_type'] = item.get('party',{}).get('type','')
-    info['party_firstname'] = item.get('party',{}).get('firstName','')
-    info['party_lastname'] = item.get('party',{}).get('lastName','')
+    info['party_first_name'] = item.get('party',{}).get('firstName','')
+    info['party_last_name'] = item.get('party',{}).get('lastName','')
     info['party_picture_url'] = item.get('party',{}).get('pictureURL','')
 
     return info
