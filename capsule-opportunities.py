@@ -18,13 +18,16 @@
 #   - name: id
 #     type: integer
 #     description: The id of the opportunity
+#   - name: team
+#     type: string
+#     description: The team this opportunity is assigned to
 #   - name: name
 #     type: string
 #     description: The name of this opportunity
 #   - name: description
 #     type: string
 #     description: A description of the opportunity
-#   - name: value_amt
+#   - name: value_amount
 #     type: number
 #     description: The amount the opportunity is worth
 #   - name: value_currency
@@ -33,48 +36,24 @@
 #   - name: probability
 #     type: integer
 #     description: The probability of winning the opportunity
-#   - name: expected_close
+#   - name: created_at
+#     type: string
+#     description: The date the opportunity was created
+#   - name: updated_at
+#     type: string
+#     description: The date when the opportunity was last updated
+#   - name: expected_close_on
 #     type: string
 #     description: The expected close date of this opportunity
-#   - name: closed
+#   - name: closed_on
 #     type: string
 #     description: The date this opportunity was closed
-#   - name: last_contacted
+#   - name: last_contacted_at
 #     type: string
 #     description: The date when this opportuntiy was last time contacted
-#   - name: last_stage_changed
+#   - name: last_stage_changed_at
 #     type: string
 #     description: The date when this opportuntiy last had its milestone changes
-#   - name: owner_id
-#     type: integer
-#     description: The id of the owner of the opportunity
-#   - name: owner_username
-#     type: string
-#     description: The username of the owner of the opportunity
-#   - name: owner_name
-#     type: string
-#     description: The name of the owner of the opportunity
-#   - name: owner_pictureurl
-#     type: string
-#     description: The url for the picture profile for the owner of the opportunity
-#   - name: team
-#     type: string
-#     description: The team this opportunity is assigned to
-#   - name: party_id
-#     type: integer
-#     description: The id of the party for the opportunity
-#   - name: party_type
-#     type: string
-#     description: The type of party for the opportunity; either 'person' or 'organisation'
-#   - name: party_firstname
-#     type: string
-#     description: The first name of the party for the opportunity
-#   - name: party_lastname
-#     type: string
-#     description: The last name of the party for the opportunity
-#   - name: party_pictureurl
-#     type: string
-#     description: The url for the picture profile for the party for the opportunity
 #   - name: duration
 #     type: string
 #     description: The duration of the opportunity
@@ -96,15 +75,36 @@
 #   - name: lost_reason
 #     type: string
 #     description: The reason the opportunity was lost
-#   - name: created
+#   - name: owner_id
+#     type: integer
+#     description: The id of the owner of the opportunity
+#   - name: owner_username
 #     type: string
-#     description: The date the opportunity was created
-#   - name: updated
+#     description: The username of the owner of the opportunity
+#   - name: owner_name
 #     type: string
-#     description: The date when the opportunity was last updated
+#     description: The name of the owner of the opportunity
+#   - name: owner_picture_url
+#     type: string
+#     description: The url for the picture profile for the owner of the opportunity
+#   - name: party_id
+#     type: integer
+#     description: The id of the party for the opportunity
+#   - name: party_type
+#     type: string
+#     description: The type of party for the opportunity; either 'person' or 'organisation'
+#   - name: party_firstname
+#     type: string
+#     description: The first name of the party for the opportunity
+#   - name: party_lastname
+#     type: string
+#     description: The last name of the party for the opportunity
+#   - name: party_picture_url
+#     type: string
+#     description: The url for the picture profile for the party for the opportunity
 # examples:
-#   - '"*"'
-#   - '"id, description, duration, duration_basis, value_amt, value_currency, probability"'
+#   - '""'
+#   - '"id, name, value_amount"'
 # notes: |
 #   See here for more information about Capsule opportunity properties: https://developer.capsulecrm.com/v2/models/opportunity
 # ---
@@ -182,6 +182,10 @@ def requests_retry_session(
     session.mount('https://', adapter)
     return session
 
+def to_date(value):
+    # TODO: convert if needed
+    return value
+
 def to_string(value):
     if isinstance(value, (date, datetime)):
         return value.isoformat()
@@ -193,29 +197,19 @@ def get_item_info(item):
 
     # map this function's property names to the API's property names
     info = OrderedDict()
-
     info['id'] = item.get('id','')
+    info['team'] = item.get('team','')
     info['name'] = item.get('name','')
     info['description'] = item.get('description','')
-    info['value_amt'] = item.get('value',{}).get('amount','')
+    info['value_amount'] = item.get('value',{}).get('amount','')
     info['value_currency'] = item.get('value',{}).get('currency','')
     info['probability'] = item.get('probability','')
-    info['created'] = item.get('createdAt','')
-    info['updated'] = item.get('updatedAt','')
-    info['expected_close'] = item.get('expectedCloseOn','')
-    info['closed'] = item.get('closedOn','')
-    info['last_contacted'] = item.get('lastContactedAt','')
-    info['last_stage_changed'] = item.get('lastStageChangedAt','')
-    info['owner_id'] = item.get('owner',{}).get('id','')
-    info['owner_username'] = item.get('owner',{}).get('username','')
-    info['owner_name'] = item.get('owner',{}).get('name','')
-    info['owner_pictureurl'] = item.get('owner',{}).get('pictureURL','')
-    info['team'] = item.get('team','')
-    info['party_id'] = item.get('party',{}).get('id','')
-    info['party_type'] = item.get('party',{}).get('type','')
-    info['party_firstname'] = item.get('party',{}).get('firstName','')
-    info['party_lastname'] = item.get('party',{}).get('lastName','')
-    info['party_pictureurl'] = item.get('party',{}).get('pictureURL','')
+    info['created_at'] = to_date(item.get('createdAt',''))
+    info['updated_at'] = to_date(item.get('updatedAt',''))
+    info['expected_close_on'] = to_date(item.get('expectedCloseOn',''))
+    info['closed_on'] = to_date(item.get('closedOn',''))
+    info['last_contacted_at'] = to_date(item.get('lastContactedAt',''))
+    info['last_stage_changed_at'] = to_date(item.get('lastStageChangedAt',''))
     info['duration'] = item.get('duration','')
     info['duration_basis'] = item.get('durationBasis','')
     info['milestone_id'] = item.get('milestone',{}).get('id','')
@@ -223,5 +217,14 @@ def get_item_info(item):
     info['milestone_last_open_id'] = item.get('lastOpenMilestone',{}).get('id','')
     info['milestone_last_open_name'] = item.get('lastOpenMilestone',{}).get('name','')
     info['lost_reason'] = item.get('lostReason','')
+    info['owner_id'] = item.get('owner',{}).get('id','')
+    info['owner_username'] = item.get('owner',{}).get('username','')
+    info['owner_name'] = item.get('owner',{}).get('name','')
+    info['owner_picture_url'] = item.get('owner',{}).get('pictureURL','')
+    info['party_id'] = item.get('party',{}).get('id','')
+    info['party_type'] = item.get('party',{}).get('type','')
+    info['party_firstname'] = item.get('party',{}).get('firstName','')
+    info['party_lastname'] = item.get('party',{}).get('lastName','')
+    info['party_picture_url'] = item.get('party',{}).get('pictureURL','')
 
     return info
