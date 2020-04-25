@@ -5,6 +5,7 @@ image:
   alt: Capsule logo
 functions:
   - path: capsule-opportunities.py
+  - path: capsule-parties.py
 prompts:
   - element: auth
     name: auth
