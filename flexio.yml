@@ -1,11 +1,44 @@
 title: Capsule
 description: Functions for accessing your Capsule info
+
 image:
   src: https://static.flex.io/assets/logos2/capsule-crm.png
   alt: Capsule logo
+
 functions:
   - path: capsule-opportunities.py
   - path: capsule-parties.py
+
+templates:
+  - name: search-and-filter-sales-pipeline
+    title: 'Search and filter your sales pipeline'
+    description: 'Import and filter data for your sales pipeline'
+    gsheets_spreadsheet_id: ''
+    excel_spreadsheet_path: ''
+    in_production: false
+    in_staging: false
+  - name: lookup-activity
+    title: 'Lookup recent sales activity '
+    description: 'Import and filter data for recent sales activity'
+    gsheets_spreadsheet_id: ''
+    excel_spreadsheet_path: ''
+    in_production: false
+    in_staging: false
+  - name: lookup-contact
+    title: 'Lookup contacts in Capsule'
+    description: 'Search and filter data for contacts in your spreadsheet'
+    gsheets_spreadsheet_id: ''
+    excel_spreadsheet_path: ''
+    in_production: false
+    in_staging: false
+  - name: lookup-companies
+    title: 'Lookup companies in Capsule'
+    description: 'Search and filter data for companies in your spreadsheet'
+    gsheets_spreadsheet_id: ''
+    excel_spreadsheet_path: ''
+    in_production: false
+    in_staging: false
+
 prompts:
   - element: auth
     name: auth
