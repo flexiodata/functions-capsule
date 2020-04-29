@@ -154,7 +154,7 @@ def get_data(params):
                     buffer = buffer + json.dumps(item, default=to_string) + "\n"
         yield buffer
 
-        page_url = response.links.get('next',{}).get('url')
+        page_url = (response.links.get('next') or {}).get('url')
         if page_url is None:
             break
 

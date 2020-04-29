@@ -152,7 +152,7 @@ def get_data(params):
             buffer = buffer + json.dumps(item, default=to_string) + "\n"
         yield buffer
 
-        page_url = response.links.get('next',{}).get('url')
+        page_url = (response.links.get('next') or {}).get('url')
         if page_url is None:
             break
 
@@ -194,8 +194,8 @@ def get_item_info(item):
     info['id'] = item.get('id')
     info['name'] = item.get('name')
     info['description'] = item.get('description')
-    info['value_amount'] = item.get('value',{}).get('amount')
-    info['value_currency'] = item.get('value',{}).get('currency')
+    info['value_amount'] = (item.get('value') or {}).get('amount')
+    info['value_currency'] = (item.get('value') or {}).get('currency')
     info['probability'] = item.get('probability')
     info['created_at'] = to_date(item.get('createdAt'))
     info['updated_at'] = to_date(item.get('updatedAt'))
@@ -205,17 +205,17 @@ def get_item_info(item):
     info['last_stage_changed_at'] = to_date(item.get('lastStageChangedAt'))
     info['duration'] = item.get('duration')
     info['duration_basis'] = item.get('durationBasis')
-    info['milestone_id'] = item.get('milestone',{}).get('id')
-    info['milestone_name'] = item.get('milestone',{}).get('name')
-    info['milestone_last_open_id'] = item.get('lastOpenMilestone',{}).get('id')
-    info['milestone_last_open_name'] = item.get('lastOpenMilestone',{}).get('name')
+    info['milestone_id'] = (item.get('milestone') or {}).get('id')
+    info['milestone_name'] = (item.get('milestone') or {}).get('name')
+    info['milestone_last_open_id'] = (item.get('lastOpenMilestone') or {}).get('id')
+    info['milestone_last_open_name'] = (item.get('lastOpenMilestone') or {}).get('name')
     info['lost_reason'] = item.get('lostReason')
-    info['party_id'] = item.get('party',{}).get('id')
-    info['party_type'] = item.get('party',{}).get('type')
-    info['party_name'] = item.get('party',{}).get('name')
-    info['owner_id'] = item.get('owner',{}).get('id')
-    info['owner_name'] = item.get('owner',{}).get('name')
-    info['team_id'] = item.get('team') or {}).get('id')
-    info['team_name'] = item.get('team') or {}).get('name')
+    info['party_id'] = (item.get('owner') or {}).get('id')
+    info['party_type'] = (item.get('owner') or {}).get('type')
+    info['party_name'] = (item.get('owner') or {}).get('name')
+    info['owner_id'] = (item.get('owner') or {}).get('id')
+    info['owner_name'] = (item.get('owner') or {}).get('name')
+    info['team_id'] = (item.get('team') or {}).get('id')
+    info['team_name'] = (item.get('team') or {}).get('name')
 
     return info
