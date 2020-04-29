@@ -75,15 +75,9 @@
 #   - name: organization_name
 #     type: string
 #     description: The name of the organization associated with the person
-#   - name: organization_picture_url
-#     type: string
-#     description: A URL the represents the location of the profile picture for the organization associated with the person
 #   - name: owner_id
 #     type: integer
 #     description: The id of the owner for the person
-#   - name: owner_username
-#     type: integer
-#     description: The username of the owner for the person
 #   - name: owner_name
 #     type: integer
 #     description: The name of the owner for the person
@@ -225,9 +219,7 @@ def get_item_info(header_item, detail_item):
     info['picture_url'] = header_item.get('pictureURL')
     info['organization_id'] = (header_item.get('organisation') or {}).get('id')
     info['organization_name'] = (header_item.get('organisation') or {}).get('name')
-    info['organization_picture_url'] = (header_item.get('organisation') or {}).get('pictureURL')
     info['owner_id'] = (header_item.get('owner') or {}).get('id')
-    info['owner_username'] = (header_item.get('owner') or {}).get('username')
     info['owner_name'] = (header_item.get('owner') or {}).get('name')
     info['team_id'] = (header_item.get('team') or {}).get('id')
     info['team_name'] = (header_item.get('team') or {}).get('name')

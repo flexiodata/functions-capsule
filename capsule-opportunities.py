@@ -84,9 +84,6 @@
 #   - name: owner_id
 #     type: integer
 #     description: The id of the owner of the opportunity
-#   - name: owner_username
-#     type: string
-#     description: The username of the owner of the opportunity
 #   - name: owner_name
 #     type: string
 #     description: The name of the owner of the opportunity
@@ -217,7 +214,6 @@ def get_item_info(item):
     info['party_type'] = item.get('party',{}).get('type')
     info['party_name'] = item.get('party',{}).get('name')
     info['owner_id'] = item.get('owner',{}).get('id')
-    info['owner_username'] = item.get('owner',{}).get('username')
     info['owner_name'] = item.get('owner',{}).get('name')
     info['team_id'] = item.get('team') or {}).get('id')
     info['team_name'] = item.get('team') or {}).get('name')

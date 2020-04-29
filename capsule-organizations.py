@@ -63,9 +63,6 @@
 #   - name: owner_id
 #     type: integer
 #     description: The id of the owner for the organization
-#   - name: owner_username
-#     type: integer
-#     description: The username of the owner for the organization
 #   - name: owner_name
 #     type: integer
 #     description: The name of the owner for the organization
@@ -203,7 +200,6 @@ def get_item_info(header_item, detail_item):
     info['address_zip'] = detail_item.get('zip')
     info['picture_url'] = header_item.get('pictureURL')
     info['owner_id'] = (header_item.get('owner') or {}).get('id')
-    info['owner_username'] = (header_item.get('owner') or {}).get('username')
     info['owner_name'] = (header_item.get('owner') or {}).get('name')
     info['team_id'] = (header_item.get('team') or {}).get('id')
     info['team_name'] = (header_item.get('team') or {}).get('name')
