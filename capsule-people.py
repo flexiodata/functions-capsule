@@ -1,10 +1,10 @@
 
 # ---
-# name: capsule-parties
+# name: capsule-people
 # deployed: true
 # config: index
-# title: Capsule Parties
-# description: Returns a list of parties from Capsule
+# title: Capsule People
+# description: Returns a list of people from Capsule
 # params:
 #   - name: properties
 #     type: array
@@ -17,91 +17,82 @@
 # returns:
 #   - name: id
 #     type: integer
-#     description: The unique id of the party
-#   - name: type
-#     type: string
-#     description: Whether a party is a person or an organisation
+#     description: The unique id of the person
 #   - name: first_name
 #     type: string
-#     description: The first name of the person if the party is a person
+#     description: The first name of the person
 #   - name: last_name
 #     type: string
-#     description: The last name of the person if the party is a person
+#     description: The last name of the person
 #   - name: title
 #     type: string
-#     description: The title of the person if the party is a person
+#     description: The title of the person
 #   - name: job_title
 #     type: string
-#     description: The job title of the person if the party is a person
+#     description: The job title of the person
 #   - name: organisation_id
 #     type: integer
-#     description: The id of the organisation associated with the party
+#     description: The id of the organisation associated with the person
 #   - name: organisation_name
 #     type: string
-#     description: The name of the organisation associated with the party
-#   - name: organisation_type
-#     type: string
-#     description: The type of the organisation associated with the party
+#     description: The name of the organisation associated with the person
 #   - name: organisation_picture_url
 #     type: string
-#     description: A URL the represents the location of the profile picture for the organisation associated with the party
-#   - name: name
-#     type: string
-#     description: The name of the organisation if the party type is an organisation
+#     description: A URL the represents the location of the profile picture for the organisation associated with the person
 #   - name: about
 #     type: string
-#     description: A short description of the party
+#     description: A short description of the person
 #   - name: created_at
 #     type: string
-#     description: The date/time when the party was created
+#     description: The date/time when the information for the person was created
 #   - name: updated_at
 #     type: string
-#     description: The date/time when the party was last updated
+#     description: The date/time when the information for the person was last updated
 #   - name: last_contacted_at
 #     type: string
-#     description: The date/time when the party was last contacted
+#     description: The date/time when the person was last contacted
 #   - name: address_id
 #     type: integer
-#     description: The id of the address associated with the party
+#     description: The id of the address associated with the person
 #   - name: address_type
 #     type: string
-#     description: The type of the address associated with the party
+#     description: The type of the address associated with the person
 #   - name: address_street
 #     type: string
-#     description: The street of the address associated with the party
+#     description: The street of the address associated with the person
 #   - name: address_city
 #     type: string
-#     description: The city of the address associated with the party
+#     description: The city of the address associated with the person
 #   - name: address_state
 #     type: string
-#     description: The state of the address associated with the party
+#     description: The state of the address associated with the person
 #   - name: address_country
 #     type: string
-#     description: The country of the address associated with the party
+#     description: The country of the address associated with the person
 #   - name: address_zip
 #     type: string
-#     description: The zip of the address for the party
+#     description: The zip of the address for the person
 #   - name: picture_url
 #     type: string
-#     description: A URL the represents the location of the profile picture for the party
+#     description: A URL the represents the location of the profile picture for the person
 #   - name: owner_id
 #     type: integer
-#     description: The id of the owner for the party
+#     description: The id of the owner for the person
 #   - name: owner_username
 #     type: integer
-#     description: The username of the owner for the party
+#     description: The username of the owner for the person
 #   - name: owner_name
 #     type: integer
-#     description: The name of the owner for the party
+#     description: The name of the owner for the person
 #   - name: team_id
 #     type: integer
-#     description: The id of the team associated with the party
+#     description: The id of the team associated with the person
 #   - name: team_name
 #     type: string
-#     description: The name of the team associated with the party
+#     description: The name of the team associated with the person
 # examples:
 #   - '""'
-#   - '"id, type, first_name, last_name, name"'
+#   - '"id, first_name, last_name"'
 # notes: |
 #   See here for more information about Capsule party properties: https://developer.capsulecrm.com/v2/models/party
 # ---
@@ -154,6 +145,8 @@ def get_data(params):
 
         buffer = ''
         for header_item in data:
+            if header_item.get('type') != 'person': # limit results to person type
+                continue
             detail_items_all =  header_item.get('addresses',[])
             if len(detail_items_all) == 0:
                 item = get_item_info(header_item, {}) # if we don't have any addresses, make sure to return item header info
@@ -204,16 +197,13 @@ def get_item_info(header_item, detail_item):
     info = OrderedDict()
 
     info['id'] = header_item.get('id')
-    info['type'] = header_item.get('type')
     info['first_name'] = header_item.get('firstName')
     info['last_name'] = header_item.get('lastName')
     info['title'] = header_item.get('title')
     info['job_title'] = header_item.get('jobTitle')
     info['organisation_id'] = (header_item.get('organisation') or {}).get('id')
     info['organisation_name'] = (header_item.get('organisation') or {}).get('name')
-    info['organisation_type'] = (header_item.get('organisation') or {}).get('type')
     info['organisation_picture_url'] = (header_item.get('organisation') or {}).get('pictureURL')
-    info['name'] = header_item.get('name')
     info['about'] = header_item.get('about')
     info['created_at'] = to_date(header_item.get('createdAt'))
     info['updated_at'] = to_date(header_item.get('updatedAt'))

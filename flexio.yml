@@ -7,7 +7,8 @@ image:
 
 functions:
   - path: capsule-opportunities.py
-  - path: capsule-parties.py
+  - path: capsule-organizations.py
+  - path: capsule-people.py
 
 templates:
   - name: search-and-filter-sales-pipeline
