@@ -21,21 +21,12 @@
 #   - name: name
 #     type: string
 #     description: The name of the organisation
-#   - name: organisation_id
-#     type: integer
-#     description: The id of the organisation
-#   - name: organisation_name
-#     type: string
-#     description: The name of the organisation
-#   - name: organisation_type
-#     type: string
-#     description: The type of the organisation
-#   - name: organisation_picture_url
-#     type: string
-#     description: A URL the represents the location of the profile picture for the organisation
 #   - name: about
 #     type: string
 #     description: A short description of the organisation
+#   - name: tags
+#     type: string
+#     description: A comma-separated list of tags associated with the organization
 #   - name: created_at
 #     type: string
 #     description: The date/time when the information for the organisation was created
@@ -123,7 +114,7 @@ def get_data(params):
     url = 'https://api.capsulecrm.com/api/v2/parties'
 
     page_size = 100
-    url_query_params = {'perPage': page_size}
+    url_query_params = {'perPage': page_size,'embed':'tags'}
     url_query_str = urllib.parse.urlencode(url_query_params)
     page_url = url + '?' + url_query_str
 
@@ -193,6 +184,13 @@ def get_item_info(header_item, detail_item):
     info['id'] = header_item.get('id')
     info['name'] = header_item.get('name')
     info['about'] = header_item.get('about')
+
+    tags = []
+    tag_info = header_item.get('tags',[])
+    for tag in tag_info:
+        tags.append(tag['name'])
+    info['tags'] = ', '.join(tags) # convert to comma-delimited string
+
     info['created_at'] = to_date(header_item.get('createdAt'))
     info['updated_at'] = to_date(header_item.get('updatedAt'))
     info['last_contacted_at'] = to_date(header_item.get('lastContactedAt'))
