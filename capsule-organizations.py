@@ -17,64 +17,64 @@
 # returns:
 #   - name: id
 #     type: integer
-#     description: The unique id of the organisation
+#     description: The unique id of the organization
 #   - name: name
 #     type: string
-#     description: The name of the organisation
+#     description: The name of the organization
 #   - name: about
 #     type: string
-#     description: A short description of the organisation
+#     description: A short description of the organization
 #   - name: tags
 #     type: string
 #     description: A comma-separated list of tags associated with the organization
 #   - name: created_at
 #     type: string
-#     description: The date/time when the information for the organisation was created
+#     description: The date/time when the information for the organization was created
 #   - name: updated_at
 #     type: string
-#     description: The date/time when the information for the organisation was last updated
+#     description: The date/time when the information for the organization was last updated
 #   - name: last_contacted_at
 #     type: string
-#     description: The date/time when the organisation was last contacted
+#     description: The date/time when the organization was last contacted
 #   - name: address_id
 #     type: integer
-#     description: The id of the address associated with the organisation
+#     description: The id of the address associated with the organization
 #   - name: address_type
 #     type: string
-#     description: The type of the address associated with the organisation
+#     description: The type of the address associated with the organization
 #   - name: address_street
 #     type: string
-#     description: The street of the address associated with the organisation
+#     description: The street of the address associated with the organization
 #   - name: address_city
 #     type: string
-#     description: The city of the address associated with the organisation
+#     description: The city of the address associated with the organization
 #   - name: address_state
 #     type: string
-#     description: The state of the address associated with the organisation
+#     description: The state of the address associated with the organization
 #   - name: address_country
 #     type: string
-#     description: The country of the address associated with the organisation
+#     description: The country of the address associated with the organization
 #   - name: address_zip
 #     type: string
-#     description: The zip of the address for the organisation
+#     description: The zip of the address for the organization
 #   - name: picture_url
 #     type: string
-#     description: A URL the represents the location of the profile picture for the organisation
+#     description: A URL the represents the location of the profile picture for the organization
 #   - name: owner_id
 #     type: integer
-#     description: The id of the owner for the organisation
+#     description: The id of the owner for the organization
 #   - name: owner_username
 #     type: integer
-#     description: The username of the owner for the organisation
+#     description: The username of the owner for the organization
 #   - name: owner_name
 #     type: integer
-#     description: The name of the owner for the organisation
+#     description: The name of the owner for the organization
 #   - name: team_id
 #     type: integer
-#     description: The id of the team associated with the organisation
+#     description: The id of the team associated with the organization
 #   - name: team_name
 #     type: string
-#     description: The name of the team associated with the organisation
+#     description: The name of the team associated with the organization
 # examples:
 #   - '""'
 #   - '"id, name"'

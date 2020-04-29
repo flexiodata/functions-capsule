@@ -69,15 +69,15 @@
 #   - name: picture_url
 #     type: string
 #     description: A URL the represents the location of the profile picture for the person
-#   - name: organisation_id
+#   - name: organization_id
 #     type: integer
-#     description: The id of the organisation associated with the person
-#   - name: organisation_name
+#     description: The id of the organization associated with the person
+#   - name: organization_name
 #     type: string
-#     description: The name of the organisation associated with the person
-#   - name: organisation_picture_url
+#     description: The name of the organization associated with the person
+#   - name: organization_picture_url
 #     type: string
-#     description: A URL the represents the location of the profile picture for the organisation associated with the person
+#     description: A URL the represents the location of the profile picture for the organization associated with the person
 #   - name: owner_id
 #     type: integer
 #     description: The id of the owner for the person
@@ -223,9 +223,9 @@ def get_item_info(header_item, detail_item):
     info['address_country'] = detail_item.get('country')
     info['address_zip'] = detail_item.get('zip')
     info['picture_url'] = header_item.get('pictureURL')
-    info['organisation_id'] = (header_item.get('organisation') or {}).get('id')
-    info['organisation_name'] = (header_item.get('organisation') or {}).get('name')
-    info['organisation_picture_url'] = (header_item.get('organisation') or {}).get('pictureURL')
+    info['organization_id'] = (header_item.get('organisation') or {}).get('id')
+    info['organization_name'] = (header_item.get('organisation') or {}).get('name')
+    info['organization_picture_url'] = (header_item.get('organisation') or {}).get('pictureURL')
     info['owner_id'] = (header_item.get('owner') or {}).get('id')
     info['owner_username'] = (header_item.get('owner') or {}).get('username')
     info['owner_name'] = (header_item.get('owner') or {}).get('name')
