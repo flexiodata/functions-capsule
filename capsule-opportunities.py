@@ -18,9 +18,6 @@
 #   - name: id
 #     type: integer
 #     description: The id of the opportunity
-#   - name: team
-#     type: string
-#     description: The team this opportunity is assigned to
 #   - name: name
 #     type: string
 #     description: The name of this opportunity
@@ -55,7 +52,7 @@
 #     type: string
 #     description: The date when this opportuntiy last had its milestone changes
 #   - name: duration
-#     type: string
+#     type: integer
 #     description: The duration of the opportunity
 #   - name: duration_basis
 #     type: string
@@ -75,6 +72,15 @@
 #   - name: lost_reason
 #     type: string
 #     description: The reason the opportunity was lost
+#   - name: party_id
+#     type: integer
+#     description: The id of the party for the opportunity
+#   - name: party_type
+#     type: string
+#     description: The type of party for the opportunity; either 'person' or 'organisation'
+#   - name: party_name
+#     type: string
+#     description: The name of the party for the opportunity
 #   - name: owner_id
 #     type: integer
 #     description: The id of the owner of the opportunity
@@ -84,24 +90,12 @@
 #   - name: owner_name
 #     type: string
 #     description: The name of the owner of the opportunity
-#   - name: owner_picture_url
-#     type: string
-#     description: The url for the picture profile for the owner of the opportunity
-#   - name: party_id
+#   - name: team_id
 #     type: integer
-#     description: The id of the party for the opportunity
-#   - name: party_type
+#     description: The id of the team associated with the person
+#   - name: team_name
 #     type: string
-#     description: The type of party for the opportunity; either 'person' or 'organisation'
-#   - name: party_first_name
-#     type: string
-#     description: The first name of the party for the opportunity
-#   - name: party_last_name
-#     type: string
-#     description: The last name of the party for the opportunity
-#   - name: party_picture_url
-#     type: string
-#     description: The url for the picture profile for the party for the opportunity
+#     description: The name of the team associated with the person
 # examples:
 #   - '""'
 #   - '"id, name, value_amount"'
@@ -199,8 +193,8 @@ def get_item_info(item):
 
     # map this function's property names to the API's property names
     info = OrderedDict()
+
     info['id'] = item.get('id')
-    info['team'] = item.get('team')
     info['name'] = item.get('name')
     info['description'] = item.get('description')
     info['value_amount'] = item.get('value',{}).get('amount')
@@ -219,14 +213,13 @@ def get_item_info(item):
     info['milestone_last_open_id'] = item.get('lastOpenMilestone',{}).get('id')
     info['milestone_last_open_name'] = item.get('lastOpenMilestone',{}).get('name')
     info['lost_reason'] = item.get('lostReason')
+    info['party_id'] = item.get('party',{}).get('id')
+    info['party_type'] = item.get('party',{}).get('type')
+    info['party_name'] = item.get('party',{}).get('name')
     info['owner_id'] = item.get('owner',{}).get('id')
     info['owner_username'] = item.get('owner',{}).get('username')
     info['owner_name'] = item.get('owner',{}).get('name')
-    info['owner_picture_url'] = item.get('owner',{}).get('pictureURL')
-    info['party_id'] = item.get('party',{}).get('id')
-    info['party_type'] = item.get('party',{}).get('type')
-    info['party_first_name'] = item.get('party',{}).get('firstName')
-    info['party_last_name'] = item.get('party',{}).get('lastName')
-    info['party_picture_url'] = item.get('party',{}).get('pictureURL')
+    info['team_id'] = item.get('team') or {}).get('id')
+    info['team_name'] = item.get('team') or {}).get('name')
 
     return info
